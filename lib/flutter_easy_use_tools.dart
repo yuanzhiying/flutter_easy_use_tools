@@ -1,7 +1,5 @@
 library flutter_easy_use_tools;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'extension/string_extension.dart';
+export 'utils/string_util.dart';
+export 'widgets/custom_inner_shadow.dart';
