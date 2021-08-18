@@ -1,6 +1,6 @@
 # flutter_easy_use_tools
 
-A new Flutter project.
+flutter常用的工具类工具方法汇集。
 
 ## Getting Started
 

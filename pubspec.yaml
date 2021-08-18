@@ -1,6 +1,6 @@
 name: flutter_easy_use_tools
-description: A new Flutter project.
-version: 0.0.2
+description: 汇集一些常用的小工具类和方法
+version: 0.0.3
 homepage: https://github.com/yuanzhiying/flutter_easy_use_tools
 
 environment:
