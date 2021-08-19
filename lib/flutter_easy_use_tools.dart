@@ -1,6 +1,6 @@
 library flutter_easy_use_tools;
 
-export 'extension/string_extension.dart';
-export 'utils/num_util.dart';
-export 'utils/string_util.dart';
-export 'widgets/custom_inner_shadow.dart';
+export 'src/extension/string_extension.dart';
+export 'src/utils/num_util.dart';
+export 'src/utils/string_util.dart';
+export 'src/widgets/custom_inner_shadow.dart';

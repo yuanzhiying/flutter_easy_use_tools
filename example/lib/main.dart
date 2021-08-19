@@ -47,6 +47,36 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('测试NumUtil'),
               ),
             ),
+            CustomInnerShadow(
+              shadows: [
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.5),
+                  offset: Offset(-1, -1),
+                  blurRadius: 1,
+                  spreadRadius: 0,
+                ),
+                BoxShadow(
+                  color: Colors.grey[400]!,
+                  offset: Offset(0, 1),
+                  blurRadius: 3,
+                  spreadRadius: 0,
+                ),
+              ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                margin: EdgeInsets.all(20),
+                height: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('内阴影'),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
