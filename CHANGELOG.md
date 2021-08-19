@@ -1,17 +1,17 @@
 ## 0.0.4
 
-* 完善评分，更新README.MD
+* update README.MD, improve packages score.
 
 ## 0.0.3
 
-* 添加example
+* add example project
 
 ## 0.0.2
 
-* 增加json格式化打印方法
-* 增加数字操作方法
+* add function for format json
+* add NumUtil
 
 ## 0.0.1
 
-* 增加内阴影Widget
-* 增加字符串扩展方法和属性
+* add inner shadow widget
+* add String extension and other functions
