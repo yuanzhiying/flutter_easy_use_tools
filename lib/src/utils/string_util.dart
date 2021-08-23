@@ -5,13 +5,16 @@ import 'package:flutter/painting.dart';
 /// 字符串操作工具类
 class StringUtil {
   /// 根据文本的字体和样式计算占用高度
-  static Size boundingTextSize(String text, TextStyle style, {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
+  static Size boundingTextSize(String text, TextStyle style,
+      {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
     if (text == '' || text.isEmpty) {
       return Size.zero;
     }
-    final TextPainter textPainter =
-        TextPainter(textDirection: TextDirection.ltr, text: TextSpan(text: text, style: style), maxLines: maxLines)
-          ..layout(maxWidth: maxWidth);
+    final TextPainter textPainter = TextPainter(
+        textDirection: TextDirection.ltr,
+        text: TextSpan(text: text, style: style),
+        maxLines: maxLines)
+      ..layout(maxWidth: maxWidth);
     return textPainter.size;
   }
 
@@ -19,7 +22,8 @@ class StringUtil {
   /// [object]  解析的对象
   /// [deep]  递归的深度，用来获取缩进的空白长度
   /// [isObject] 用来区分当前map或list是不是来自某个字段，则不用显示缩进。单纯的map或list需要添加缩进
-  static String convertJsonFormat(dynamic object, int deep, {bool isObject = false}) {
+  static String convertJsonFormat(dynamic object, int deep,
+      {bool isObject = false}) {
     var buffer = StringBuffer();
     var nextDeep = deep + 1;
     if (object is Map) {
@@ -36,7 +40,8 @@ class StringUtil {
         buffer.write("\n");
         for (int i = 0; i < list.length; i++) {
           buffer.write("${getDeepSpace(nextDeep)}\"${list[i]}\":");
-          buffer.write(convertJsonFormat(object[list[i]], nextDeep, isObject: true));
+          buffer.write(
+              convertJsonFormat(object[list[i]], nextDeep, isObject: true));
           if (i < list.length - 1) {
             buffer.write(",");
             buffer.write("\n");

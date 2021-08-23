@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_use_tools/flutter_easy_use_tools.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,6 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var dio = Dio();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +52,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: Text('测试NumUtil'),
               ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    color: Colors.green,
+                    margin: EdgeInsets.only(bottom: 20),
+                    padding: EdgeInsets.all(20),
+                    child: MaterialButton(
+                      onPressed: testDownloadTask,
+                      child: Text('添加多个下载任务'),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.green,
+                    margin: EdgeInsets.only(bottom: 20),
+                    padding: EdgeInsets.all(20),
+                    child: MaterialButton(
+                      onPressed: cancelDownloadTask,
+                      child: Text('取消任务队列'),
+                    ),
+                  ),
+                ),
+              ],
             ),
             CustomInnerShadow(
               shadows: [
@@ -81,5 +113,68 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  /// 多个下载任务测试
+  void testDownloadTask() async {
+    /// 任务全部下载完成回调
+    if (TaskQueueManager.instance('download').taskAllFinishedCallback == null) {
+      TaskQueueManager.instance('download').taskAllFinishedCallback = () {
+        print('任务全部完成 - queueName：download');
+      };
+    }
+
+    TaskQueueManager.instance('download').addTask(() {
+      return _download('download', 1);
+    });
+    TaskQueueManager.instance('download').addTask(() {
+      return _download('download', 2);
+    });
+    TaskQueueManager.instance('download').addTask(() {
+      return _download('download', 3);
+    });
+  }
+
+  /// 取消下载任务
+  void cancelDownloadTask() async {
+    TaskQueueManager.instance('download').cancelTask();
+    print('任务取消 - queueName：download');
+  }
+
+  /// 单个下载
+  Future _download(String queueName, int taskNo) async {
+    try {
+      String downloadUrl = 'https://img-dev.xinxigu.com.cn/s1/2020/7/23/ca226be9814208db75cf000eb43cf12f.mp4';
+      String downloadPath = await getDownloadPath(downloadUrl, taskNo);
+      Response<dynamic> response = await dio.download(downloadUrl, downloadPath);
+      if (response.statusCode == 200) {
+        print('任务完成 - 下载成功  queueName：$queueName, taskNo: $taskNo');
+      } else {
+        print('任务完成 - 下载失败  queueName：$queueName, taskNo: $taskNo');
+      }
+      return response;
+    } catch (e) {
+      print('任务完成 - 下载失败  queueName：$queueName, taskNo: $taskNo Error: $e');
+      return FlutterError('下载异常');
+    }
+  }
+
+  /// 获取下载地址
+  Future<String> getDownloadPath(String url, int taskNo) async {
+    String savedDirPath = '';
+
+    // 生成、获取结果存储路径
+    final tempDic = await getTemporaryDirectory();
+    Directory downloadDir = Directory(tempDic.path + '/download/');
+    bool isFold = await downloadDir.exists();
+    if (!isFold) {
+      await downloadDir.create();
+    }
+    savedDirPath = downloadDir.path;
+
+    String fileName = url.split('/').last.split('.').first;
+    String extension = url.split('.').last;
+    String videoPath = savedDirPath + fileName + '-$taskNo' + '.' + extension;
+    return videoPath;
   }
 }
