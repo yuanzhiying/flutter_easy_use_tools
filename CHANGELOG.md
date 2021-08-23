@@ -1,8 +1,3 @@
-## 0.0.5
-
-* improve packages score
-* add TaskQueueManager
-
 ## 0.0.4
 
 * update README.MD, improve packages score.
